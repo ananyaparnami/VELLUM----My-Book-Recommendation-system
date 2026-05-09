@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Recommend - Vellum</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css">
+    <style>
+        body { background-color: black; color: white; font-family: 'Segoe UI', sans-serif; }
+        
+        /* Navbar matching your Sky Blue logo background */
+        .navbar {
+            background-color: #38b6ff !important;
+            border: none;
+            border-radius: 0;
+            padding: 5px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .nav-left-side { display: flex; align-items: center; flex-grow: 1; }
+        .brand-name { font-size: 32px; font-weight: bold; color: black !important; text-decoration: none; margin-right: 40px; text-transform: uppercase; letter-spacing: 2px; }
+        .nav-links { list-style: none; display: flex; margin: 0; padding: 0; }
+        .nav-links li a { color: black !important; text-decoration: none; margin-right: 25px; font-size: 18px; }
+        .nav-links li a:hover { color: white !important; }
+        .logo-right { height: 75px; width: auto; object-fit: contain; }
+
+        .btn-custom { background-color: #38b6ff; color: black; border: none; padding: 12px 30px; font-size: 18px; margin-top: 15px; border-radius: 4px; font-weight: bold; }
+        
+        .results-container { margin-top: 50px; width: 100%; }
+        .book-row { display: flex; flex-wrap: wrap; }
+        .card-body { display: flex; flex-direction: column; justify-content: space-between; min-height: 400px; text-align: left; padding: 15px; }
+        .card-img-top { height: 260px; object-fit: contain; width: 100%; }
+        .book-title { height: 45px; overflow: hidden; margin-top: 15px; font-size: 16px; color: white; }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="nav-left-side">
+            <a href="/" class="brand-name">Vellum</a>
+            <ul class="nav-links">
+                <li><a href="/">Home</a></li>
+                <li><a href="/recommend">Recommend</a></li>
+            </ul>
+        </div>
+        <img src="{{ url_for('static', filename='logo.png') }}" class="logo-right" alt="Logo">
+    </nav>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h1 style="font-size: 50px; margin-top: 60px; font-weight: 300;">Find Your Next Read</h1>
+                <form action="/recommend_books" method="post" style="margin-top: 30px;">
+                    <input name="user_input" type="text" class="form-control" placeholder="Search book name..." style="height: 55px; font-size: 18px; background: #222; color: white; border: 1px solid #444;"><br>
+                    <input type="submit" class="btn btn-custom" value="Get Recommendations">
+                </form>
+            </div>
+        </div>
+
+        <div class="row results-container">
+            {% if data %}
+                {% for i in data %}
+                <div class="col-md-3" style="display: flex; margin-bottom: 40px;">
+                    <div class="card w-100" style="background:transparent; border:none;">
+                        <div class="card-body">
+                            <img class="card-img-top" src="{{i[2]}}">
+                            <p class="book-title"><strong>{{i[0]}}</strong></p>
+                            <h5 style="opacity:0.8; font-size: 14px; height: 20px; overflow: hidden; color: #ccc;">{{i[1]}}</h5>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>
